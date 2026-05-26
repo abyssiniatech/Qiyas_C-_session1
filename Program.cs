@@ -1,16 +1,68 @@
 ﻿using System;
 
+public class Course
+{
+    // Required init-only property
+    public required string Code { get; init; }
+
+    // Auto-property validation using 'field'
+    public required string Title
+    {
+        get;
+        set => field = !string.IsNullOrWhiteSpace(value)
+            ? value
+            : throw new ArgumentException(
+                "Title cannot be empty or whitespace.",
+                nameof(value));
+    }
+
+    // Capacity validation
+    public int Capacity
+    {
+        get;
+        set => field = value > 0
+            ? value
+            : throw new ArgumentOutOfRangeException(
+                nameof(value),
+                "Capacity must be greater than zero.");
+    }
+
+    public int EnrolledCount { get; set; }
+}
+
 class Program
 {
     static void Main()
     {
-        decimal grantPerStudent = 1999.99m;
-        int totalStudents = 100_000;
+        // Valid object
+        var course = new Course
+        {
+            Code = "CS-401",
+            Title = "Advanced C#",
+            Capacity = 30
+        };
 
-        decimal totalAllocation = grantPerStudent * totalStudents;
+        Console.WriteLine(
+            $"Course: {course.Title} (Capacity: {course.Capacity})");
 
-        Console.WriteLine($"Grant Per Student : {grantPerStudent:C}");
-        Console.WriteLine($"Total Students    : {totalStudents:N0}");
-        Console.WriteLine($"Total Allocation  : {totalAllocation:C}");
+        // Invalid capacity
+        try
+        {
+            course.Capacity = -5;
+        }
+        catch (ArgumentOutOfRangeException ex)
+        {
+            Console.WriteLine($"Caught: {ex.Message}");
+        }
+
+        // Invalid title
+        try
+        {
+            course.Title = "";
+        }
+        catch (ArgumentException ex)
+        {
+            Console.WriteLine($"Caught: {ex.Message}");
+        }
     }
 }
