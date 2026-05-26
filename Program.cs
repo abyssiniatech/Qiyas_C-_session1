@@ -1,12 +1,16 @@
-﻿// variables in c#
-string studentName = "Abeba";
-string studentId = "STU-001";
-int enrollmentCount = 3;
-decimal grantAmount = 1999.99m; // 'm' suffix marks a decimal literal
-DateTime enrolledAt = DateTime.UtcNow;
-string? campusRegion = null;
-Console.WriteLine($"Student: {studentName} ({studentId})");
-Console.WriteLine($"Enrollments: {enrollmentCount}");
-Console.WriteLine($"Grant Amount: {grantAmount:C}");
-Console.WriteLine($"Enrolled At: {enrolledAt}");
-Console.WriteLine($"Campus Region: {campusRegion ?? "Not specified"}");
+﻿using System;
+
+class Program
+{
+    static void Main()
+    {
+        decimal grantPerStudent = 1999.99m;
+        int totalStudents = 100_000;
+
+        decimal totalAllocation = grantPerStudent * totalStudents;
+
+        Console.WriteLine($"Grant Per Student : {grantPerStudent:C}");
+        Console.WriteLine($"Total Students    : {totalStudents:N0}");
+        Console.WriteLine($"Total Allocation  : {totalAllocation:C}");
+    }
+}
